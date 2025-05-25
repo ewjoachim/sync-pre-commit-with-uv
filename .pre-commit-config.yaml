@@ -1,0 +1,73 @@
+ci:
+  skip: [pyright]
+  autoupdate_schedule: quarterly
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # File names
+      - id: check-case-conflict
+      # File formats
+      - id: pretty-format-json
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      # Executables
+      - id: check-executables-have-shebangs
+        exclude: dev-env
+      - id: check-shebang-scripts-are-executable
+      # Git shenanigans
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      # Python issues
+      - id: check-ast
+      - id: debug-statements
+      # Whitespace
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.7.8
+    hooks:
+      - id: uv-lock
+
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.401
+    hooks:
+      - id: pyright
+        additional_dependencies:
+          - annotated-types==0.7.0
+          - eval-type-backport==0.2.2 ; python_full_version < '3.10'
+          - packaging==25.0
+          - pydantic==2.10.6 ; python_full_version < '3.9'
+          - pydantic==2.11.5 ; python_full_version >= '3.9'
+          - pydantic-core==2.27.2 ; python_full_version < '3.9'
+          - pydantic-core==2.33.2 ; python_full_version >= '3.9'
+          - ruamel-yaml==0.18.11
+          - ruamel-yaml-clib==0.2.8 ; python_full_version < '3.9' and platform_python_implementation
+            == 'CPython'
+          - ruamel-yaml-clib==0.2.12 ; python_full_version >= '3.9' and python_full_version
+            < '3.14' and platform_python_implementation == 'CPython'
+          - tomli==2.2.1 ; python_full_version < '3.11'
+          - typing-extensions==4.13.2
+          - typing-inspection==0.4.1 ; python_full_version >= '3.9'
+          - uv==0.7.8
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.11
+    hooks:
+      - id: ruff
+        args: [--fix, --unsafe-fixes]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: sync
+        # Copied from .pre-commit-hooks.yaml
+        name: Sync repos with uv
+        entry: uv run sync-pre-commit-with-uv
+        language: python
+        files: (uv\.lock|.pre-commit-config\.ya?ml)

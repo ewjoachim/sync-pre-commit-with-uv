@@ -1,0 +1,6 @@
+- id: sync
+  name: Sync repos with uv
+  description: Automatically sync pre-commit repos with package versions in uv.lock
+  entry: sync-pre-commit-with-uv
+  language: python
+  files: (uv\.lock|.pre-commit-config\.ya?ml)

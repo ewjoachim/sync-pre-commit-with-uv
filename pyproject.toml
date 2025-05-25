@@ -1,0 +1,100 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sync_pre_commit_with_uv"
+version = "2.1.0"
+description = "Sync versions in .pre-commit-config.yaml from uv.lock"
+authors = [{ name = "Joachim Jablon" }]
+requires-python = "~=3.8"
+readme = "README.md"
+license = { file = "LICENSE.md" }
+keywords = ["pre-commit", "uv"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "uv",
+    "ruamel.yaml",
+    "packaging",
+    "pydantic",
+    "tomli; python_version < '3.11'",
+    "eval-type-backport; python_version < '3.10'",
+]
+
+[project.urls]
+Repository = "https://github.com/ewjoachim/sync-pre-commit-with-uv/"
+
+[project.scripts]
+sync-pre-commit-with-uv = "sync_pre_commit_with_uv.__main__:cli"
+
+[tool.uv]
+default-groups = ["test", "lint-format"]
+
+[tool.uv.workspace]
+members = ["tests/myproject"]
+
+[dependency-groups]
+test = [
+    "factory-boy",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-subprocess>=1.5.3",
+]
+lint-format = ["ruff", "pyright[nodejs]"]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-branch",
+    "--cov=sync_pre_commit_with_uv",
+    "-vv",
+    "--strict-markers",
+    "-rfE",
+]
+testpaths = ["tests"]
+filterwarnings = """
+    error
+"""
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "raise NotImplementedError",
+    "coverage: exclude",
+    "if TYPE_CHECKING:",
+    "[ ]+\\.\\.\\.$",
+]
+
+
+[tool.pyright]
+exclude = ["tests", ".venv"]
+typeCheckingMode = "strict"
+reportUnknownMemberType = false
+
+[tool.ruff.lint]
+extend-select = [
+    "UP",  # pyupgrade
+    "I",   # isort
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "RUF", # ruff
+]
+fixable = ["ALL"]
+extend-ignore = [
+    "E501", # line too long
+]
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+
+# Drink our own champagne
+[tool.sync-pre-commit-with-uv.pyright-python]
+pypi_package_name = "pyright"
+additional_dependencies_uv_params = ["--no-default-groups"]

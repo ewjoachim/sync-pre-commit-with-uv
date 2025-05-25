@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        python-version:
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+
+    name: "py${{ matrix.python-version }}"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6
+        with:
+          python-version: "${{ matrix.python-version }}"
+
+      - name: Run tests
+        run: uv run pytest
+        env:
+          COVERAGE_FILE: ".coverage.${{ matrix.python-version }}"
+
+      - name: Store coverage file
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.python-version }}
+          path: .coverage.${{ matrix.python-version }}
+          include-hidden-files: true
+
+  static-typing:
+    name: Run Pyright
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6
+        with:
+          activate-environment: true
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - uses: jakebailey/pyright-action@v2
+        with:
+          version: PATH
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    needs: [build]
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-*
+          merge-multiple: true
+
+      - name: Display coverage
+        uses: ewjoachim/python-coverage-comment-action@v3
+        with:
+          MERGE_COVERAGE_FILES: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MINIMUM_GREEN: 95
+
+      - name: Store Pull Request comment to be posted
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-coverage-comment-action
+          path: python-coverage-comment-action.txt
