@@ -201,6 +201,7 @@ def uv_export(params: list[str]) -> list[str]:
     base_export_args = [
         "uv",
         "export",
+        "--active",
         "--no-hashes",
         "--no-header",
         "--no-emit-project",

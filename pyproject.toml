@@ -44,7 +44,7 @@ test = [
     "pytest-mock",
     "pytest-subprocess>=1.5.3",
 ]
-lint-format = ["ruff", "pyright[nodejs]"]
+lint-format = ["ruff", "pyright"]
 
 [tool.pytest.ini_options]
 addopts = [

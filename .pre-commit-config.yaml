@@ -71,3 +71,5 @@ repos:
         entry: uv run sync-pre-commit-with-uv
         language: python
         files: (uv\.lock|.pre-commit-config\.ya?ml)
+        additional_dependencies:
+          - uv
