@@ -1,16 +1,25 @@
 {
-  extends: ["config:recommended", ":enablePreCommit"],
-  schedule: ["before 4am on Saturday"],
-  labels: ["PR type: dependencies 🤖"],
+  extends: [
+    'config:recommended',
+    ':enablePreCommit',
+  ],
+  schedule: [
+    'before 4am on Saturday',
+  ],
+  labels: [
+    'PR type: dependencies 🤖',
+  ],
   lockFileMaintenance: {
     enabled: true,
     automerge: true,
   },
   packageRules: [
     {
-      groupName: "all dependencies",
-      groupSlug: "all",
-      matchPackagePatterns: ["*"],
+      groupName: 'all dependencies',
+      groupSlug: 'all',
+      matchPackageNames: [
+        '*',
+      ],
     },
   ],
   automerge: true,
