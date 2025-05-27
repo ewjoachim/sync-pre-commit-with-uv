@@ -16,6 +16,54 @@
   pre-commit hook. This is mainly useful for hooks that need a complete environment to
   run, like static type checkers (`mypy`, `pyright`, etc.).
 
+## What?
+
+If your `.pre-commit-config.yaml` file looks like this:
+```yaml
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.11
+    hooks:
+      - id: ruff
+```
+but your `uv.lock` says you're using ruff at version `0.12.0`, then the hook will change
+`.pre-commit-config.yaml` to:
+```diff
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+-     rev: v0.11.11
++     rev: v0.12.0
+      hooks:
+        - id: ruff
+```
+
+And if it looks like this:
+```yaml
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.400
+    hooks:
+      - id: pyright
+        additional_dependencies:
+          - django-stubs==5.1.3
+```
+And you've added configuration in `pyproject.toml` to synchronize the
+`additional_dependencies` with the uv dependency group named `types`:
+```toml
+[tool.sync-pre-commit-with-uv.pyright-python]
+pypi_package_name = "pyright"
+additional_dependencies_uv_params = ["--group", "types"]
+```
+Then when uv upgrades `django-stubs` to 5.1.4, the hook will upgrade
+`.pre-commit-config.yaml` to:
+```diff
+    - repo: https://github.com/RobertCraigie/pyright-python
+      rev: v1.1.400
+      hooks:
+        - id: pyright
+          additional_dependencies:
+-           - django-stubs==5.1.3
++           - django-stubs==5.1.4
+```
+
+
 ## Installation & Usage
 
 ```yaml
