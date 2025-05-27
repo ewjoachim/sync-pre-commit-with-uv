@@ -3,4 +3,4 @@
   description: Automatically sync pre-commit repos with package versions in uv.lock
   entry: sync-pre-commit-with-uv
   language: python
-  files: (uv\.lock|.pre-commit-config\.ya?ml)
+  files: (uv\.lock|pyproject\.toml|.pre-commit-config\.ya?ml)
