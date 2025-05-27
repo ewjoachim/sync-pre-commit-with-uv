@@ -9,7 +9,7 @@ on:
       - "*"
 
 jobs:
-  build:
+  tests:
     strategy:
       matrix:
         python-version:
@@ -58,10 +58,21 @@ jobs:
         with:
           version: PATH
 
+  self-check:
+    name: Run sync-pre-commit-with-uv on the repo itself
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6
+
+      - name: Install dependencies
+        run: uvx pre-commit try-repo . --all-files --show-diff-on-failure
+
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [tests]
     permissions:
       pull-requests: write
       contents: write
