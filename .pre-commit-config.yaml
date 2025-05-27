@@ -58,9 +58,3 @@ repos:
       - id: ruff
         args: [--fix, --unsafe-fixes]
       - id: ruff-format
-
-  - repo: https://github.com/ewjoachim/sync-pre-commit-with-uv
-    rev: 1.0.1
-    hooks:
-      # Use this hook to ensure that the versions of the repos are synced
-      - id: sync
