@@ -4,8 +4,8 @@ import contextlib
 import copy
 import pathlib
 import subprocess
-from collections.abc import Generator
-from typing import Any, Iterable, NamedTuple, Protocol, cast
+from collections.abc import Generator, Iterable
+from typing import Any, NamedTuple, Protocol, cast
 
 import packaging.utils
 import pydantic
@@ -123,7 +123,10 @@ class UvLockPackageConfig(pydantic.BaseModel):
         uv.lock file.
         """
         for package in config.get("package", []):
-            yield cls(name=package["name"], version=package["version"])
+            try:
+                yield cls(name=package["name"], version=package["version"])
+            except KeyError:
+                continue
 
 
 class RepoConfig(NamedTuple):
