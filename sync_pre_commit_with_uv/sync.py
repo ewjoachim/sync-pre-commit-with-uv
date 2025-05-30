@@ -14,7 +14,8 @@ import ruamel.yaml
 from . import exceptions, toml
 
 
-class PyProjectRepoConfig(pydantic.BaseModel):
+@pydantic.dataclasses.dataclass(kw_only=True)
+class PyProjectRepoConfig:
     repo_name: str
     pypi_package_name: str | None = None
     sync_revision: bool = True
@@ -56,7 +57,8 @@ class UpdateProtocol(Protocol):
     def apply(self, pre_commit_config: dict[str, Any]) -> None: ...
 
 
-class UpdateRev(pydantic.BaseModel):
+@pydantic.dataclasses.dataclass(kw_only=True)
+class UpdateRev:
     repo: str
     value: str
 
@@ -67,7 +69,8 @@ class UpdateRev(pydantic.BaseModel):
         repo["rev"] = self.value
 
 
-class UpdateAdditionalDependencies(pydantic.BaseModel):
+@pydantic.dataclasses.dataclass(kw_only=True)
+class UpdateAdditionalDependencies:
     repo: str
     hook_id: str
     value: list[str]
@@ -85,11 +88,13 @@ class UpdateAdditionalDependencies(pydantic.BaseModel):
         hook["additional_dependencies"] = self.value
 
 
-class PreCommitHookConfig(pydantic.BaseModel):
+@pydantic.dataclasses.dataclass(kw_only=True)
+class PreCommitHookConfig:
     id: str
 
 
-class PreCommitRepoConfig(pydantic.BaseModel):
+@pydantic.dataclasses.dataclass(kw_only=True)
+class PreCommitRepoConfig:
     repo: str
     rev: str = ""
     hooks: list[PreCommitHookConfig]
@@ -110,7 +115,8 @@ class PreCommitRepoConfig(pydantic.BaseModel):
                 ) from exc
 
 
-class UvLockPackageConfig(pydantic.BaseModel):
+@pydantic.dataclasses.dataclass(kw_only=True)
+class UvLockPackageConfig:
     name: str
     version: str
 
