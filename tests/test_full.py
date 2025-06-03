@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import pathlib
 import subprocess
+import sys
 
 from sync_pre_commit_with_uv import __main__ as cli
 
 
 def test_full_integration(tmp_path: pathlib.Path, monkeypatch):
+    monkeypatch.setenv("UV_PYTHON", sys.executable)
     monkeypatch.chdir(tmp_path)
     pre_commit_file = tmp_path / ".pre-commit-config.yaml"
     pyproject_file = tmp_path / "pyproject.toml"
