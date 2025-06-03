@@ -96,8 +96,8 @@ class PreCommitHookConfig:
 @pydantic.dataclasses.dataclass(kw_only=True)
 class PreCommitRepoConfig:
     repo: str
-    rev: str = ""
     hooks: list[PreCommitHookConfig]
+    rev: str = ""
 
     @classmethod
     def from_pre_commit_config(
