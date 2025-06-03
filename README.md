@@ -7,9 +7,9 @@
 | sync\_pre\_commit\_with\_uv/\_\_init\_\_.py |        0 |        0 |        0 |        0 |    100% |           |
 | sync\_pre\_commit\_with\_uv/\_\_main\_\_.py |       44 |        1 |       10 |        1 |     96% |        96 |
 | sync\_pre\_commit\_with\_uv/exceptions.py   |       10 |        0 |        0 |        0 |    100% |           |
-| sync\_pre\_commit\_with\_uv/sync.py         |      133 |        2 |       32 |        0 |     99% |   128-129 |
+| sync\_pre\_commit\_with\_uv/sync.py         |      139 |        2 |       32 |        0 |     99% |   134-135 |
 | sync\_pre\_commit\_with\_uv/toml.py         |        9 |        0 |        2 |        0 |    100% |           |
-|                                   **TOTAL** |  **196** |    **3** |   **44** |    **1** | **98%** |           |
+|                                   **TOTAL** |  **202** |    **3** |   **44** |    **1** | **98%** |           |
 
 
 ## Setup coverage badge
