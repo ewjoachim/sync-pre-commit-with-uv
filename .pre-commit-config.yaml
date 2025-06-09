@@ -31,7 +31,7 @@ repos:
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.7.8
+    rev: 0.7.12
     hooks:
       - id: uv-lock
 
@@ -45,15 +45,15 @@ repos:
           - packaging==25.0
           - pydantic==2.11.5
           - pydantic-core==2.33.2
-          - ruamel-yaml==0.18.11
-          - ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation
-            == 'CPython'
+          - ruamel-yaml==0.18.14
+          - ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and
+            platform_python_implementation == 'CPython'
           - tomli==2.2.1 ; python_full_version < '3.11'
-          - typing-extensions==4.13.2
+          - typing-extensions==4.14.0
           - typing-inspection==0.4.1
-          - uv==0.7.8
+          - uv==0.7.12
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.11
+    rev: v0.11.13
     hooks:
       - id: ruff
         args: [--fix, --unsafe-fixes]

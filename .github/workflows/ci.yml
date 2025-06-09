@@ -61,13 +61,39 @@ jobs:
   self-check:
     name: Run sync-pre-commit-with-uv on the repo itself
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      REF: "${{ github.head_ref || 'main' }}"
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          ref: ${{ env.REF }}
 
       - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6
 
-      - name: Install dependencies
-        run: uvx pre-commit try-repo . --all-files --show-diff-on-failure
+      - name: Run sync-pre-commit-with-uv, commit changes if any
+        run: |
+          set -eux
+          uvx pre-commit try-repo . --all-files --show-diff-on-failure || exit_code=$?
+
+          if ! git diff --exit-code; then
+            if [ "${IS_FORK}" = "true" ]; then
+              echo "::warning::Changes detected, but this is a fork. Skipping commit and push."
+
+            else
+              echo "::notice::Changes detected, committing and pushing changes"
+              git config user.name "GitHub Actions"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add .
+              git commit -m "Sync pre-commit with uv.lock"
+              git push
+            fi
+          fi
+
+          exit_code=${exit_code:-0}
+        env:
+          IS_FORK: ${{ github.event_name == 'pull_request' && github.repository != github.event.pull_request.head.repo.full_name }}
 
   coverage:
     name: Coverage
