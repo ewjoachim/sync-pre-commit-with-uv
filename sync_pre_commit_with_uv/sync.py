@@ -191,6 +191,10 @@ def yaml_roundtrip(
     Context manager for reading and writing YAML files with round-trip preservation.
     """
     yaml = ruamel.yaml.YAML()
+    # https://sourceforge.net/p/ruamel-yaml/tickets/546/
+    # ruamel.yaml may introduce trailing spaces when wrapping line, so we disable
+    # wrapping.
+    yaml.width = 1e6
     config = cast("dict[str, Any]", yaml.load(path.read_text()))
     old_config = copy.deepcopy(config)
     yield config
