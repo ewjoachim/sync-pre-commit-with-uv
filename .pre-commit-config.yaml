@@ -46,7 +46,7 @@ repos:
           - pydantic==2.11.5
           - pydantic-core==2.33.2
           - ruamel-yaml==0.18.14
-          - ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and 
+          - ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and
             platform_python_implementation == 'CPython'
           - tomli==2.2.1 ; python_full_version < '3.11'
           - typing-extensions==4.14.0
