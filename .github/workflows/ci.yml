@@ -81,6 +81,7 @@ jobs:
           if ! git diff --exit-code; then
             if [ "${IS_FORK}" = "true" ]; then
               echo "::warning::Changes detected, but this is a fork. Skipping commit and push."
+              echo "::warning::Please run 'uvx pre-commit try-repo .' locally and commit the changes manually."
 
             else
               echo "::notice::Changes detected, committing and pushing changes"
@@ -91,9 +92,9 @@ jobs:
               git remote set-url origin "https://${PAT}@github.com/${GITHUB_REPOSITORY}.git"
               git push
             fi
+            exit 1
           fi
 
-          exit ${exit_code:-0}
         env:
           PAT: ${{ secrets.PAT }}
           IS_FORK: ${{ github.event_name == 'pull_request' && github.repository != github.event.pull_request.head.repo.full_name }}
