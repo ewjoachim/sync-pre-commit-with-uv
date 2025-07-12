@@ -69,6 +69,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: ${{ env.REF }}
+          persist-credentials: false
 
       - uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6
 
@@ -83,16 +84,18 @@ jobs:
 
             else
               echo "::notice::Changes detected, committing and pushing changes"
-              git config user.name "GitHub Actions"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git config user.name "Joachim Jablon (PAT)"
+              git config user.email "ewjoachim@gmail.com"
               git add .
               git commit -m "Sync pre-commit with uv.lock"
+              git remote set-url origin "https://${PAT}@github.com/${GITHUB_REPOSITORY}.git"
               git push
             fi
           fi
 
-          exit_code=${exit_code:-0}
+          exit ${exit_code:-0}
         env:
+          PAT: ${{ secrets.PAT }}
           IS_FORK: ${{ github.event_name == 'pull_request' && github.repository != github.event.pull_request.head.repo.full_name }}
 
   coverage:
