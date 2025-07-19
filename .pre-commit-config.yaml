@@ -31,7 +31,7 @@ repos:
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.7.20
+    rev: 0.8.0
     hooks:
       - id: uv-lock
 
@@ -52,7 +52,7 @@ repos:
           - typing-inspection==0.4.1
           - uv==0.7.20
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.3
+    rev: v0.12.4
     hooks:
       - id: ruff
         args: [--fix, --unsafe-fixes]
