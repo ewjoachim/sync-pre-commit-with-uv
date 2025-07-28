@@ -31,7 +31,7 @@ repos:
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.7.20
+    rev: 0.8.3
     hooks:
       - id: uv-lock
 
@@ -50,9 +50,9 @@ repos:
           - tomli==2.2.1 ; python_full_version < '3.11'
           - typing-extensions==4.14.1
           - typing-inspection==0.4.1
-          - uv==0.7.20
+          - uv==0.8.3
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.3
+    rev: v0.12.5
     hooks:
       - id: ruff
         args: [--fix, --unsafe-fixes]
