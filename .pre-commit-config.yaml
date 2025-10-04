@@ -36,7 +36,7 @@ repos:
       - id: uv-lock
 
   - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.405
+    rev: v1.1.406
     hooks:
       - id: pyright
         additional_dependencies:
@@ -52,7 +52,7 @@ repos:
           - typing-inspection==0.4.1
           - uv==0.8.22
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.2
+    rev: v0.13.3
     hooks:
       - id: ruff
         args: [--fix, --unsafe-fixes]
