@@ -31,12 +31,12 @@ repos:
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.9.4
+    rev: 0.9.5
     hooks:
       - id: uv-lock
 
   - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.406
+    rev: v1.1.407
     hooks:
       - id: pyright
         additional_dependencies:
@@ -45,14 +45,14 @@ repos:
           - packaging==25.0
           - pydantic==2.12.3
           - pydantic-core==2.41.4
-          - ruamel-yaml==0.18.15
+          - ruamel-yaml==0.18.16
           - ruamel-yaml-clib==0.2.14 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
           - tomli==2.3.0 ; python_full_version < '3.11'
           - typing-extensions==4.15.0
           - typing-inspection==0.4.2
-          - uv==0.9.4
+          - uv==0.9.5
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.1
+    rev: v0.14.2
     hooks:
       - id: ruff
         args: [--fix, --unsafe-fixes]
