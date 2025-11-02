@@ -9,13 +9,18 @@ All interactions are required to follow the
 
 ## Development
 
-The project uses [uv](https://docs.astral.sh/uv/),
-[pre-commit](https://pre-commit.com/), and
-[pytest](https://docs.pytest.org/en/stable/).
+Development of this project leverages:
+
+- [uv](https://docs.astral.sh/uv/)
+- [ruff](https://docs.astral.sh/ruff/)
+- [prek](https://prek.j178.dev/)
+- [pytest](https://docs.pytest.org/en/stable/)
+- [basedpyright](https://docs.basedpyright.com/latest/)
 
 ```console
-$ uv sync
-$ pre-commit install
+$ uv sync --all-groups
+$ uv run prek install
+$ uv run prek --all-files
 $ uv run pytest
 ```
 
@@ -25,4 +30,4 @@ If you have any questions, feel free to ask them in the issues.
 
 ## Releasing
 
-Launch the `Release` worfklow with the desired tag.
+Create a GitHub Release with the appropriate tag.
