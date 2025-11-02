@@ -14,7 +14,7 @@
 - Map specific hooks with uv groups. It will ensure that all the dependencies of
   your uv group will be added as `additional_dependencies` in the corresponding
   pre-commit hook. This is mainly useful for hooks that need a complete environment to
-  run, like static type checkers (`mypy`, `pyright`, etc.).
+  run, like static type checkers (`mypy`, `basedpyright`, etc.).
 
 ## What?
 

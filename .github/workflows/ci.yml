@@ -41,22 +41,26 @@ jobs:
           path: .coverage.${{ matrix.python-version }}
           include-hidden-files: true
 
-  static-typing:
-    name: Run Pyright
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - uses: j178/prek-action@91fd7d7cf70ae1dee9f4f44e7dfa5d1073fe6623 # v1
+        with:
+          extra-args: "--skip=basedpyright"
+
+  type-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - uses: astral-sh/setup-uv@85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41 # v7
-        with:
-          activate-environment: true
 
       - name: Install dependencies
         run: uv sync --all-extras
 
-      - uses: jakebailey/pyright-action@v2
-        with:
-          version: PATH
+      - name: Run type checker
+        run: uv run basedpyright
 
   self-check:
     name: Run sync-pre-commit-with-uv on the repo itself
@@ -76,12 +80,13 @@ jobs:
       - name: Run sync-pre-commit-with-uv, commit changes if any
         run: |
           set -eux
-          uvx pre-commit try-repo . --all-files --show-diff-on-failure || exit_code=$?
+          uv sync
+          uv run prek try-repo . --all-files --show-diff-on-failure || exit_code=$?
 
           if ! git diff --exit-code; then
             if [ "${IS_FORK}" = "true" ]; then
               echo "::warning::Changes detected, but this is a fork. Skipping commit and push."
-              echo "::warning::Please run 'uvx pre-commit try-repo .' locally and commit the changes manually."
+              echo "::warning::Please run 'uv run prek try-repo .' locally and commit the changes manually."
 
             else
               echo "::notice::Changes detected, committing and pushing changes"

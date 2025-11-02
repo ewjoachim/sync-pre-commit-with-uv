@@ -37,7 +37,7 @@ Repository = "https://github.com/ewjoachim/sync-pre-commit-with-uv/"
 sync-pre-commit-with-uv = "sync_pre_commit_with_uv.__main__:cli"
 
 [tool.uv]
-default-groups = ["test", "lint-format"]
+default-groups = ["test", "dev"]
 
 [tool.uv.workspace]
 members = ["tests/myproject"]
@@ -50,7 +50,7 @@ test = [
     "pytest-mock",
     "pytest-subprocess>=1.5.3",
 ]
-lint-format = ["ruff", "pyright"]
+dev = ["prek", "ruff", "basedpyright"]
 
 [tool.pytest.ini_options]
 addopts = [
@@ -79,10 +79,13 @@ exclude_lines = [
 ]
 
 
-[tool.pyright]
+[tool.basedpyright]
 exclude = ["tests", ".venv"]
-typeCheckingMode = "strict"
 reportUnknownMemberType = false
+reportUnusedCallResult = false
+reportAny = false
+reportExplicitAny = false
+reportUnreachable = false
 
 [tool.ruff.lint]
 extend-select = [
@@ -99,8 +102,3 @@ extend-ignore = [
 
 [tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]
-
-# Drink our own champagne
-[tool.sync-pre-commit-with-uv.pyright-python]
-pypi_package_name = "pyright"
-additional_dependencies_uv_params = ["--no-default-groups"]
