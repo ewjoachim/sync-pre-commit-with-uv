@@ -25,7 +25,7 @@ repos:
       - id: mixed-line-ending
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.17
+    rev: 0.9.16
     hooks:
       - id: uv-lock
 
@@ -35,7 +35,7 @@ repos:
       - id: basedpyright
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.9
+    rev: v0.14.8
     hooks:
       - id: ruff
         args: [--fix, --unsafe-fixes]
