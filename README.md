@@ -6,6 +6,9 @@
 [![MIT License](https://img.shields.io/github/license/ewjoachim/sync-pre-commit-with-uv?logo=open-source-initiative&logoColor=white)](https://github.com/ewjoachim/sync-pre-commit-with-uv/blob/main/LICENSE.md)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](https://github.com/ewjoachim/sync-pre-commit-with-uv/blob/main/CODE_OF_CONDUCT.md)
 
+> [!WARNING]
+> Please be advised that there is no active development on this hook. https://github.com/tsvikas/sync-with-uv partially the same and is better maintained, and [`prek`](https://prek.j178.dev/) (a better compatible rust rewrite of pre-commit) has [ongoing work](https://github.com/j178/prek/issues/1675) that will make this useless in the long term. Don't expect long-term maintenance.
+
 `sync-pre-commit-with-uv` is a [pre-commit](https://pre-commit.com/) hook that does 2 things:
 
 - Ensures that the different `rev` keys in your
