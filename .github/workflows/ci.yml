@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
@@ -44,7 +44,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - uses: j178/prek-action@79f765515bd648eb4d6bb1b17277b7cb22cb6468 # v2
         with:
           extra-args: "--skip=basedpyright"
@@ -52,7 +52,7 @@ jobs:
   type-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
 
@@ -70,7 +70,7 @@ jobs:
     env:
       REF: "${{ github.head_ref || 'main' }}"
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           ref: ${{ env.REF }}
           persist-credentials: false
@@ -112,7 +112,7 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
 
       - uses: actions/download-artifact@v8
         with:
@@ -120,7 +120,7 @@ jobs:
           merge-multiple: true
 
       - name: Display coverage
-        uses: ewjoachim/python-coverage-comment-action@v3
+        uses: ewjoachim/python-coverage-comment-action@v4.1
         with:
           MERGE_COVERAGE_FILES: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
