@@ -16,6 +16,52 @@
   pre-commit hook. This is mainly useful for hooks that need a complete environment to
   run, like static type checkers (`mypy`, `pyright`, etc.).
 
+> [!NOTE]
+> There's an alternative that removes the need for this hook altogether, at the cost of
+> a bit of boilerplate. With [prek](https://github.com/j178/prek) as your hook runner,
+> you can drop most pinned `rev`s: `repo: builtin` provides most of the usual
+> `pre-commit-hooks` checks natively, and every tool that's already in your `uv.lock`
+> can run as a `repo: local` hook with `language: system`:
+>
+> ```yaml
+> repos:
+>   - repo: builtin
+>     hooks:
+>       - id: check-toml
+>       - id: end-of-file-fixer
+>
+>   - repo: local
+>     hooks:
+>       - id: ruff-check
+>         name: ruff check
+>         entry: uv run --group lint ruff check --force-exclude --fix
+>         language: system
+>         types_or: [python, pyi]
+>         require_serial: true
+>
+>       - id: basedpyright
+>         name: basedpyright
+>         entry: uv run --all-groups basedpyright
+>         language: system
+>         types_or: [python, pyi]
+>         require_serial: true
+> ```
+>
+> Versions then come from `uv.lock` at run time instead of from a `rev` that needs
+> syncing, and `additional_dependencies` goes away too: `uv run --all-groups` already
+> hands the type checker the complete environment. The trade-off is that hooks run
+> against your project environment rather than an isolated one, so this only fits tools
+> you're happy to have as project dependencies, and it rules out runners that have no
+> `uv` available (`pre-commit.ci`, notably).
+>
+> This hook stays useful if you're sticking with `pre-commit` itself, or if you want
+> your hooks isolated from the project environment. Note that not having pinned
+> transitive dependencies mean that if a sub-dependency of one of your hooks gets
+> released, it will be installed on your repo (and potentially will modify your code
+> through pre-commit without you noticing) and it will be quite hard to even get logs
+> to show what happened. Locking transitive deps is important for reproducibility and
+> pre-commit hooks go against that.
+
 ## What?
 
 If your `.pre-commit-config.yaml` file looks like this:
