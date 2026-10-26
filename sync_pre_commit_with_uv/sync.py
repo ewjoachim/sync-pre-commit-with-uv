@@ -194,7 +194,7 @@ def yaml_roundtrip(
     # https://sourceforge.net/p/ruamel-yaml/tickets/546/
     # ruamel.yaml may introduce trailing spaces when wrapping line, so we disable
     # wrapping.
-    yaml.width = 1e6
+    yaml.width = 1_000_000
     config = cast("dict[str, Any]", yaml.load(path.read_text()))
     old_config = copy.deepcopy(config)
     yield config
