@@ -25,7 +25,7 @@ repos:
       - id: mixed-line-ending
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.13.9
+    rev: 0.13.10
     hooks:
       - id: uv-lock
 
